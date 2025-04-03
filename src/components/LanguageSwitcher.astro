@@ -1,0 +1,28 @@
+---
+const languages = [
+  { code: "en", name: "English" },
+  { code: "es", name: "Español" }
+];
+
+const currentPath = Astro.url.pathname; // Get current path
+
+// Extract language prefix (if any) and remove it from the path
+const match = currentPath.match(/^\/(en|es)(\/.*)?$/);
+const currentLang = match ? match[1] : "en"; // Default to English
+const basePath = match ? match[2] || "/" : currentPath; // Preserve page path
+---
+
+<nav>
+  <ul>
+    {languages.map((lang) => (
+      <li>
+        <a
+          href={`/${lang.code}${basePath}`}
+          class={lang.code === currentLang ? "active" : ""}
+        >
+          {lang.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
